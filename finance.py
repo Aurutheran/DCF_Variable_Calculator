@@ -4,31 +4,56 @@ import matplotlib.pyplot as plt
 from unicodedata import normalize
 from urllib.request import Request, urlopen
 
-EBITDA = []
-FCF = []
-years = []
-# tickername = input()
-tickername = 'AAPL'
+class DCF:
+  EBITDA = []
+  FCF = []
+  years = []
 
-year = '2021'
-years = [str(int(year)),str(int(year)-1),str(int(year)-2),str(int(year)-3), str(int(year)-4)]
-print(years)
+  def __init__(self,ticker,year):
+    self.ticker = ticker
+    self.year = year
+    self.reqFinance = Request(url='https://stockanalysis.com/stocks/{}/financials/'.format(ticker), headers={'User-Agent' : 'Mozilla/5.0'})
+    self.reqCashflow = Request(url='https://stockanalysis.com/stocks/{}/financials/cash-flow-statement/'.format(self.ticker), headers={'User-Agent' : 'Mozilla/5.0'})
 
-req = Request(url='https://stockanalysis.com/stocks/{}/financials/'.format(tickername), headers={'User-Agent' : 'Mozilla/5.0'})
-webpage = urlopen(req).read()
-table_MN = pd.read_html(webpage, index_col = 0)
-df = table_MN[0]
+    self.EBITDA = []
+    self.FCF = []
+    self.years = []
 
-req2 = Request(url='https://stockanalysis.com/stocks/{}/financials/cash-flow-statement/'.format(tickername), headers={'User-Agent' : 'Mozilla/5.0'})
-webpage1 = urlopen(req2).read()
-table_MN2 = pd.read_html(webpage1, index_col=0)
-df2 = table_MN2[0]
+    webpage = urlopen(self.reqFinance).read()
+    table_MN = pd.read_html(webpage, index_col = 0)
+    self.financetable = table_MN[0]
 
-for each in years:
-  EBITDA.append(df[each]['EBITDA'])
-  FCF.append(df2[each]['Free Cash Flow'])
-print(EBITDA)  
-print(FCF)
+    webpage = urlopen(self.reqCashflow).read()
+    table_MN = pd.read_html(webpage, index_col = 0)
+    self.cashflowtable = table_MN[0]
+  
+  #Request 
+  # def func_finance(self):
+  #   webpage = urlopen(self.reqFinance).read()
+  #   table_MN = pd.read_html(webpage, index_col = 0)
+  #   return table_MN[0]
+
+  # def func_cashflow(self):
+  #   webpage = urlopen(self.reqCashflow).read()
+  #   table_MN = pd.read_html(webpage, index_col = 0)
+  #   return table_MN[0]
+
+
+#Main CLASS
+print("Enter Ticker-Name: ")
+ticker = input()
+
+print("Enter Year: ")
+year = input()
+
+cfm = DCF(ticker,year)
+cfm.years = [str(int(year)),str(int(year)-1),str(int(year)-2),str(int(year)-3), str(int(year)-4)]
+
+for each in cfm.years:
+  cfm.EBITDA.append(cfm.financetable[each]['EBITDA'])
+  cfm.FCF.append(cfm.cashflowtable[each]['Free Cash Flow'])
+print(cfm.EBITDA)  
+print(cfm.FCF)
 
 #EBITDA (NEED)              
 # #->YOY Change, AVG EBITA GROWTH
