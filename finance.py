@@ -10,6 +10,7 @@ class DCF:
   discount = []
   terminal_rate = 0
   ROR = 0
+  
   #Obtained from web:
   EBITDA = []
   FCF = []
@@ -22,7 +23,6 @@ class DCF:
   FCF_CHANGE = []
   PERPETUAL_GROWTH_VALUE = 0
   
-
   def __init__(self,ticker,year):
     self.ticker = ticker
     self.year = year
