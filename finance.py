@@ -1,5 +1,6 @@
 import pandas as pd
 from urllib.request import Request, urlopen
+import time, os
 
 class DCF:
   #Obtained from user (Assumptions)  (In percentage for every growth rate at each ebitda stage):
@@ -7,9 +8,10 @@ class DCF:
   growthrate_fcf = []
 
   #Used for discount array
-  discount = []
+  discount = [] #Discount Array
   terminal_rate = 0
   ROR = 0
+  EV_EBITDA = 0
   
   #Obtained from web:
   EBITDA = []
@@ -21,14 +23,40 @@ class DCF:
   FCF_GR_VAL = []
   EBITDA_CHANGE = []
   FCF_CHANGE = []
+
   PERPETUAL_GROWTH_VALUE = 0
+  EV_EBITDA_GROWTH_VALUE = 0
+  AVERAGE_GROWTH_VALUE = 0
+
+
+  #Share Price Variables
+  TerminalStage_VALUE = 0
+  Cashflow_VALUE = []
+  Enterprise_VALUE = 0
+
+  Cash = 0
+  Short_Term_Securities = 0
+  Current_Debt = 0
+  Long_Term_Debt = 0
+
+  Equity_Value = 0
+  Shares_Outstanding = 0
+
+  Share_Price = 0
+
   
   def __init__(self,ticker,year):
     self.ticker = ticker
     self.year = year
+
+    print("Obtaining values please wait...\n")
     self.reqFinance = Request(url='https://stockanalysis.com/stocks/{}/financials/'.format(ticker), headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'})
+    time.sleep(10)
     self.reqCashflow = Request(url='https://stockanalysis.com/stocks/{}/financials/cash-flow-statement/'.format(self.ticker), headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'})
-    
+    self.cls = lambda: os.system('cls')
+    self.cls()
+    print("Obtained values!")
+
     self.financetable = pd.read_html(urlopen(self.reqFinance).read(), index_col = 0)[0]
     self.cashflowtable = pd.read_html(urlopen(self.reqCashflow).read(), index_col = 0)[0]
 
@@ -141,6 +169,46 @@ class DCF:
   def setupPerpetuity(self):
     self.PERPETUAL_GROWTH_VALUE = (self.FCF_GR_VAL[-1])*(1+self.terminal_rate)/(self.ROR - self.terminal_rate)
     print("The Perpetual Growth Value is: {}".format(self.PERPETUAL_GROWTH_VALUE))
+  
+  def setupEV_EBITDA(self):
+    self.EV_EBITDA_GROWTH_VALUE = self.EV_EBITDA * self.EBITDA_GR_VAL[-1]
+    print("The EV/EBITDA Growth Value is: {}".format(self.EV_EBITDA_GROWTH_VALUE))
+
+  def setEV_EBITDA(self,value):
+    self.EV_EBITDA = float(value)
+  
+  def setGrowthAverage(self):
+    self.AVERAGE_GROWTH_VALUE = float(self.EV_EBITDA_GROWTH_VALUE + self.PERPETUAL_GROWTH_VALUE)/2
+    print("The Average Growth Value using the two methods are: {}".format(self.AVERAGE_GROWTH_VALUE))
+  
+  def setTerminalStage(self):
+    self.TerminalStage_VALUE = float(self.AVERAGE_GROWTH_VALUE * self.discount[-1])
+  
+  def setPresentCashflow(self):
+    for i in range(len(self.discount)):
+      self.Cashflow_VALUE.append(self.discount[i] * self.FCF_GR_VAL[i])
+    print("The Present Cashflow Value is: {}".format(self.Cashflow_VALUE))
+  
+  def setEnterpriseValue(self):
+    self.Enterprise_VALUE = sum(self.Cashflow_VALUE) + self.TerminalStage_VALUE
+    print("The Enterprise Value is: {}".format(self.Enterprise_VALUE))
+  
+  def getBalanceSheetValues(self):
+    self.reqBalance = Request(url='https://stockanalysis.com/stocks/{}/financials/balance-sheet/'.format(self.ticker), headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'})
+    self.balancetable = pd.read_html(urlopen(self.reqBalance).read(), index_col = 0)[0]
+
+    self.Cash = float(self.balancetable[self.years[0]]['Cash & Cash Equivalents']) * 1000000
+    #self.Short_Term_Securities = float(self.balancetable[self.years[0]]['Short-Term Investments']) * 1000000
+    self.Current_Debt = float(self.balancetable[self.years[0]]['Total Current Liabilities']) * 1000000
+    self.Long_Term_Debt = float(self.balancetable[self.years[0]]['Total Long-Term Liabilities'])* 1000000
+
+    self.Equity_Value = float(self.Enterprise_VALUE + self.Cash - self.Current_Debt - self.Long_Term_Debt)
+    self.Shares_Outstanding = int(self.financetable[self.years[0]]['Shares Outstanding (Diluted)']) * 1000000
+
+  def getSharePrice(self):
+    self.Share_Price = float(self.Equity_Value / self.Shares_Outstanding)
+    print("Fair Value of {}: {}".format(self.ticker,self.Share_Price))
+
 #Main CLASS
 
 #Ticker Information
@@ -157,21 +225,27 @@ year = input()
 cfm = DCF(ticker,year)
 
 #Rate of Return Information
+cfm.cls()
 print("Enter Rate of Return (EX: 12.5 for 12.5%):")
 ROR = input()
 #ROR = "12.5"
 cfm.setupDiscount(ROR)
 
 #Provide EV/EBITDA Value
-
+cfm.cls()
+print("Enter the EV/EBITDA Multiple:")
+EV_EBITDA = input()
+cfm.setEV_EBITDA(EV_EBITDA)
 
 #Terminal Stage
+cfm.cls()
 print("Enter the terminal stage rate of return:")
 terminal_rate = input()
 #terminal_rate = 3
 cfm.setupTerminal(terminal_rate)
 
 #EBITDA Growth Information
+cfm.cls()
 print("Enter EBITDA Growth Rate:")
 EBITDA_GR = input()
 #EBITDA_GR = "5"
@@ -183,6 +257,7 @@ print("CFM in Millions: {}".format(cfm.FCF))
 
 
 #Free Cashflow Growth Information
+cfm.cls()
 print("Enter Free-Cashflow Growth Rate:")
 FCF_GR = input()
 #FCF_GR = "10"
@@ -196,4 +271,17 @@ cfm.setupEBITDA_FCF_GROWTH_VALUES()
 
 #Perpetuity Growth Method
 cfm.setupPerpetuity()
-#EV/EBITDA
+#EV/EBITDA Growth Method
+cfm.setupEV_EBITDA()
+
+
+#Obtain average
+cfm.setGrowthAverage()
+
+
+#Obtaining share price
+cfm.setTerminalStage()
+cfm.setPresentCashflow()
+cfm.setEnterpriseValue()
+cfm.getBalanceSheetValues()
+cfm.getSharePrice()
