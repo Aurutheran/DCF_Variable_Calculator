@@ -209,6 +209,23 @@ class DCF:
     self.Share_Price = float(self.Equity_Value / self.Shares_Outstanding)
     print("Fair Value of {}: {}".format(self.ticker,self.Share_Price))
 
+  def obtainSharePrice(self):
+    self.setTerminalStage()
+    self.setPresentCashflow()
+    self.setEnterpriseValue()
+    self.getBalanceSheetValues()
+    self.getSharePrice()
+  
+  def obtainGrowthMethod(self):
+    #Growth Rate Values
+    self.setupEBITDA_FCF_GROWTH_VALUES()
+
+
+    #Perpetuity Growth Method
+    self.setupPerpetuity()
+    #EV/EBITDA Growth Method
+    self.setupEV_EBITDA()
+
 #Main CLASS
 
 #Ticker Information
@@ -264,24 +281,8 @@ FCF_GR = input()
 cfm.setupFCF_GR(FCF_GR)
 print("FCF Growth Rates: {}".format(cfm.growthrate_fcf))
 
-
-#Growth Rate Values
-cfm.setupEBITDA_FCF_GROWTH_VALUES()
-
-
-#Perpetuity Growth Method
-cfm.setupPerpetuity()
-#EV/EBITDA Growth Method
-cfm.setupEV_EBITDA()
-
-
+cfm.obtainGrowthMethod()
 #Obtain average
 cfm.setGrowthAverage()
-
-
 #Obtaining share price
-cfm.setTerminalStage()
-cfm.setPresentCashflow()
-cfm.setEnterpriseValue()
-cfm.getBalanceSheetValues()
-cfm.getSharePrice()
+cfm.obtainSharePrice()
