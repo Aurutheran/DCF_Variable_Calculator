@@ -286,3 +286,4 @@ cfm.obtainGrowthMethod()
 cfm.setGrowthAverage()
 #Obtaining share price
 cfm.obtainSharePrice()
+
