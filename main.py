@@ -1,50 +1,30 @@
-from fastapi import FastAPI, Form
+from fastapi import FastAPI
+from starlette.responses import HTMLResponse
 from pydantic import BaseModel
-
-
-class Inputs(BaseModel):
-    ticker: str
-    year: int
-    # rateofreturn: float
-    # ebitdamultiple: int
-    # EBITDA_GROWTH: float
-    # CASH_GROWTH: float
-    # TERMINAL_GROWTH: float
-
-# class DCF:
-#     ticker = None
-#     year = None
-#     def __init__(self,ticker,year):
-#         self.ticker = ticker
-#         self.year = year
-
-global ticker_1
-global year_1
 
 app = FastAPI()
 
-# @app.post("/")
-# async def root(userinput: Inputs):
-#     return {"message":userinput}
+stored_data = {}
 
-# @app.get("/")
-# async def getValues():
-#     return Inputs.ticker
+class Data(BaseModel):
+    id: str
+    value: str
 
-# @app.get('/')
-# def index():
-#     return{"Root Directory" : "This is the root directory"}
+@app.post("/store_data")
+async def store_data(data: Data):
+    stored_data[data.id] = data.value
+    return {"message": "Data stored successfully"}
 
-# @app.get('/DCF/')
-# def show(id:int, age:int):
-#     return{"Here is the id":id,"Here is the age":age}
+@app.get("/delete/{id}")
+async def delete_form(request, id: str):
+    with open("templates/delete.html", "r") as file:
+        content = file.read().format(id=id)
+        return HTMLResponse(content=content, status_code=200)
 
-@app.post('/ticker/')
-def postTicker(input: Inputs):
-    return {"message" : input['ticker']}
-    
-
-# @app.get('/')
-# async def getValues():
-#     return {'Ticker': ticker_1, "Year": year_1}
-
+@app.post("/delete/{id}")
+async def delete_data(id: str):
+    if id in stored_data:
+        del stored_data[id]
+        return {"message": "Data deleted successfully"}
+    else:
+        return {"message": "Data not found"}
