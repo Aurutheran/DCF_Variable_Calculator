@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Item Details</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <p class="title">Variable DCF Calculator</p>
+    <form action="http://127.0.0.1:8000/" method="POST">
+        <div class="flex">
+            <p>Ticker name:</p>
+            <input type="textbox" value="{{ ticker }}" placeholder="Please enter the ticker name">
+        </div>
+        <div class="flex">
+            <p>Year:</p>
+            <input type="textbox" placeholder="Please enter the year value">
+        </div>
+        <div class="flex">
+            <p>Rate Of Return:</p>
+            <input type="textbox" placeholder="Please enter the Rate of Return">
+        </div>
+        <div class="flex">
+            <p>EV/EBIDTA Multiple:</p>
+            <input type="textbox" placeholder="Please enter the EV/EBIDTA Multiple">
+        </div>
+        <div class="flex">
+            <p>Terminal Rate Of Return:</p>
+            <input type="textbox" placeholder="Please enter the Terminal Rate Of Return">
+        </div>
+        <div class="flex">
+            <p>EBIDTA Growth Rate:</p>
+            <input type="textbox" placeholder="Please enter the EBIDTA Growth Rate">
+        </div>
+        <div class="flex">
+            <p>Free cash flow growth rate:</p>
+            <input type="textbox" placeholder="Please enter the Free cash flow growth rate">
+        </div>
+        <input type="submit" value="Submit" class="submit">
+        <div class="response">
+            <div class="flex">
+                <p>DCF Value:</p>
+                <div class="Results"></div>
+            </div>
+            <div class="flex">
+                <p>Current Value:</p>
+                <div class="Results"></div>
+            </div>
+            <div class="flex">
+                <p>Margin Of Safety: </p>
+                <div class="Results"></div>
+            </div>
+        </div>
+
+    </form>
+</body>
+</html>
