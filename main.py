@@ -6,9 +6,9 @@ from fastapi.templating import Jinja2Templates
 app = FastAPI()
 res = {}
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static") #html_css
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="templates") #html_css
 
 @app.get('/')
 def render(request: Request):
