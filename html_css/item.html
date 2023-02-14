@@ -38,11 +38,11 @@
           </div>
           <div class="flex">
             <h1>EBIDTA Growth Rate:</h1>
-            <input class="tbox" type="textbox" name="EBIDTA_GR" placeholder="e.g. 5.00">
+            <input class="tbox" type="textbox" name="EBIDTA_GR" placeholder="e.g. 5.00 or 5 values separated by space">
           </div>
           <div class="flex">
             <h1>Free cash flow growth rate:</h1>
-            <input class="tbox" type="textbox" name="FCF" placeholder="e.g. 10.50">
+            <input class="tbox" type="textbox" name="FCF" placeholder="e.g. 10.50 or 5 values separated by space">
           </div>
           <input type="submit" value="Submit" class="submit">
         </form>
@@ -69,9 +69,9 @@
           <div class="flex">
             <p>Margin Of Safety: </p>
             {% if (MarginOfSafety>0) %}
-              <p class="positive">{{ MarginOfSafety }}</p>
+              <p class="positive">{{ MarginOfSafety }}%</p>
             {% else %}
-              <p class="negative">{{ MarginOfSafety }}</p>
+              <p class="negative">{{ MarginOfSafety }}%</p>
             {% endif %}
           </div>
         </div>

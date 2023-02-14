@@ -3,9 +3,11 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import time
 
 #Finance Code
 import finance
+import currentvalue
 
 app = FastAPI()
 res = {}
@@ -48,7 +50,15 @@ async def run(request: Request):
 
     DCFValue = round(cfm.Share_Price,2)
 
-    
+    print('Please wait, your requests are being processed')
+    time.sleep(10)
+    cfm.cls()
+
+    curval = currentvalue.CurVal(ticker)
+    CurrentValue = round(curval.getcurval(), 2)
+
+    MarginOfSafety = round(float(DCFValue-CurrentValue)/float(DCFValue)*100, 2)
+
     return templates.TemplateResponse("item.html", {"request": request, "data": data, "DCFValue": DCFValue, "CurrentValue": CurrentValue, "MarginOfSafety": MarginOfSafety})
 
 @app.get('/getval')
