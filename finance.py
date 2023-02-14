@@ -229,61 +229,61 @@ class DCF:
 #Main CLASS
 
 #Ticker Information
-print("Enter Ticker-Name: ")
-ticker = input()
+#print("Enter Ticker-Name: ")
+#ticker = input()
 #ticker = "AAPL" #REMOVe
 
 #Year Information
-print("Enter Year: ")
-year = input()
+#print("Enter Year: ")
+#year = input()
 #year = "2022" #REMOVe
 
 #Defining the Object
-cfm = DCF(ticker,year)
+#cfm = DCF(ticker,year)
 
 #Rate of Return Information
-cfm.cls()
-print("Enter Rate of Return (EX: 12.5 for 12.5%):")
-ROR = input()
+#cfm.cls()
+#print("Enter Rate of Return (EX: 12.5 for 12.5%):")
+#ROR = input()
 #ROR = "12.5"
-cfm.setupDiscount(ROR)
+#cfm.setupDiscount(ROR)
 
 #Provide EV/EBITDA Value
-cfm.cls()
-print("Enter the EV/EBITDA Multiple:")
-EV_EBITDA = input()
-cfm.setEV_EBITDA(EV_EBITDA)
+#cfm.cls()
+#print("Enter the EV/EBITDA Multiple:")
+#EV_EBITDA = input()
+#cfm.setEV_EBITDA(EV_EBITDA)
 
 #Terminal Stage
-cfm.cls()
-print("Enter the terminal stage rate of return:")
-terminal_rate = input()
+#cfm.cls()
+#print("Enter the terminal stage rate of return:")
+#terminal_rate = input()
 #terminal_rate = 3
-cfm.setupTerminal(terminal_rate)
+#cfm.setupTerminal(terminal_rate)
 
 #EBITDA Growth Information
-cfm.cls()
-print("Enter EBITDA Growth Rate:")
-EBITDA_GR = input()
+#cfm.cls()
+#print("Enter EBITDA Growth Rate:")
+#EBITDA_GR = input()
 #EBITDA_GR = "5"
-cfm.setupEBITDA_GR(EBITDA_GR)
-print("EBITDA Growth Rates: {}".format(cfm.growthrate_ebitda))
-print("Values in the millions:")
-print("EBITDA in Millions: {}".format(cfm.EBITDA))
-print("CFM in Millions: {}".format(cfm.FCF))
+#cfm.setupEBITDA_GR(EBITDA_GR)
+#print("EBITDA Growth Rates: {}".format(cfm.growthrate_ebitda))
+#print("Values in the millions:")
+#print("EBITDA in Millions: {}".format(cfm.EBITDA))
+#print("CFM in Millions: {}".format(cfm.FCF))
 
 
 #Free Cashflow Growth Information
-cfm.cls()
-print("Enter Free-Cashflow Growth Rate:")
-FCF_GR = input()
+#cfm.cls()
+#print("Enter Free-Cashflow Growth Rate:")
+#FCF_GR = input()
 #FCF_GR = "10"
-cfm.setupFCF_GR(FCF_GR)
-print("FCF Growth Rates: {}".format(cfm.growthrate_fcf))
+#cfm.setupFCF_GR(FCF_GR)
+#print("FCF Growth Rates: {}".format(cfm.growthrate_fcf))
 
-cfm.obtainGrowthMethod()
+#cfm.obtainGrowthMethod()
 #Obtain average
-cfm.setGrowthAverage()
+#cfm.setGrowthAverage()
 #Obtaining share price
-cfm.obtainSharePrice()
+#cfm.obtainSharePrice()
 

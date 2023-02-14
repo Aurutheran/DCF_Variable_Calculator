@@ -1,36 +1,118 @@
-body {
-    background-color: rgb(186, 40, 40);
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+:root {
+  --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-.title {
-    text-align: center;
-    font-size: 40px;
+::placeholder{
+    color:green;
+    opacity:0.5;
+    font-size:15px;
+    /*padding-left: 15px;*/
 }
 
-.flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    column-gap: 10px;
+body{
+    background-color: #f7f7f7;
+    font-family: 'Lato', sans-serif;
 }
-
-.response {
+.header{
+    margin-top: 5px;
+    margin-bottom: -140;
+}
+.body_div {
+    background-color: #f7f7f7;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
-    column-gap: 10px;
+    justify-content: space-between;
+    min-height: 100vh;
+    margin: 0;
+    margin-right: 150px;
+    margin-top: 80px;
+  }
+
+.flex{
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    min-height:3vh;
+    min-width:45vw;
+}
+p{
+    font-family: 'Lato',sans-serif;
+    font-weight: 500;
+    font-size: 5vh;
+    text-align: center;
+}
+h1 {
+    letter-spacing: 1px;
+    margin: 0;
+    font-family: 'Lato',sans-serif;
+    font-weight: 100;
+    font-size:2vh;
 }
 
-.Results {
-    width: 80px;
-    height: 40px;
-    border: solid 2px black;
-    background-color: white;
+.column_1{
+    margin:50px;
 }
 
-.submit {
+.submit{
+    cursor: pointer;
+    background-color: #47e459;
+    box-shadow: var(--box-shadow);
+    color: #fff;
+    border: 0;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 16px;
+    margin: 10px 0 30px;
+    padding: 10px;
+    width: 100%; 
+    font-size: 20px;
+    transition: background-color 0.25s, color 0.25s, opacity 0.25s;
+}
+
+.submit:hover{
+    background-color: black;
+    color: #47e459;
+    opacity:0.9;
+}
+.submit:active{
+    opacity: 0.5;
+}
+
+.tbox{
+    color:black;
+    outline-style:solid 1px;
+    outline-color: green;
+    background-color: #47e45971;
+    border:none;
+    margin-right:-5px;
+    min-width: 15vw;
+    min-height: 4vh;
+    transition: background-color 0.25s;
+    text-indent: 15px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size:25px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+}
+
+.tbox:hover{
+    background-color: #abffb599;
+}
+
+/* .tbox:active{
+    
+} */
+
+.positive{
+    color:green;
+}
+.negative{
+    color:red;
 }
