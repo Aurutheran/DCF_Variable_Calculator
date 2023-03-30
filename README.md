@@ -26,6 +26,9 @@ uvicorn==0.20.0
 watchfiles==0.18.1
 websockets==10.4
 
-If you have any questions, feel free to email me at ajithanurutheran@gmail.com
+If you have any questions, feel free to email with the following links below.
+
+Ajithan: ajithanurutheran@gmail.com
+Ruthvik: 77ruthvik@gmail.com
 
 
