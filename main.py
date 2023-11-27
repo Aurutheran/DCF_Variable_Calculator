@@ -11,7 +11,10 @@ import time
 import finance
 import currentvalue
 
-app = FastAPI()
+app = FastAPI(
+    host="0.0.0.0",
+    port=8000,
+)
 res = {}
 DCFValue = 0
 CurrentValue = 0
