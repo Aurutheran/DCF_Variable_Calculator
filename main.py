@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import time
+import time, os
 
 #Finance Code
 import finance
@@ -18,7 +18,7 @@ CurrentValue = 0
 MarginOfSafety = 0
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
 
 app.mount("/static", StaticFiles(directory="static"), name="static") #html_css
 
