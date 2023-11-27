@@ -11,16 +11,14 @@ import time
 import finance
 import currentvalue
 
-app = FastAPI(
-    host="0.0.0.0",
-    port=8000,
-)
+app = FastAPI()
 res = {}
 DCFValue = 0
 CurrentValue = 0
 MarginOfSafety = 0
 
-
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 app.mount("/static", StaticFiles(directory="static"), name="static") #html_css
 
