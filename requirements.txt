@@ -1,3 +1,4 @@
 fastapi
 pandas==1.5.3
 uvicorn[standard]
+Jinja2
