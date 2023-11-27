@@ -1,4 +1,6 @@
 #FastAPI Code
+import uvicorn
+from os import getenv
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -14,6 +16,10 @@ res = {}
 DCFValue = 0
 CurrentValue = 0
 MarginOfSafety = 0
+
+if __name__ == "__main__":
+    port = int(getenv("PORT",8000))
+    uvicorn.run("main:app", host="0.0.0.0",port=port, reload=True)
 
 app.mount("/static", StaticFiles(directory="static"), name="static") #html_css
 
